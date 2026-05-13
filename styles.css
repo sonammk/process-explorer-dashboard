@@ -1059,7 +1059,7 @@ body::after {
 }
 
 .dashboard::before {
-  content: "OS CONTROL CENTER";
+  content: "PROCESS EXPLORER";
   position: fixed;
   top: 18px;
   left: 18px;
