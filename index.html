@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Scheduler & PCB Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+    <section class="pcb-modal" id="pcbModal" role="dialog" aria-modal="true" aria-labelledby="pcbTitle">
+      <div class="modal-head">
+        <h2 id="pcbTitle">📋 PCB DETAILS</h2>
+        <button class="icon-button" id="modalCloseTop" type="button" aria-label="Close PCB details">✕</button>
+      </div>
+      <div class="pcb-grid" id="pcbGrid"></div>
+      <button class="close-pcb" id="modalCloseBottom" type="button">❌ Close PCB</button>
+    </section>
+
+    <main class="dashboard" id="dashboard">
+      <header class="top-header">
+        <h1>🚀 Interactive Scheduler &amp; PCB Visualizer</h1>
+        <p>Live Operating System Scheduling &amp; PCB Analysis Dashboard</p>
+      </header>
+
+      <section class="search-section" aria-label="Search process">
+        <form class="search-bar" id="searchForm">
+          <input id="searchInput" type="search" placeholder="Search Process" autocomplete="off" />
+          <button type="submit" aria-label="Search">🔍</button>
+        </form>
+        <div class="search-hint">Try P1, P2, P3 or a process name to inspect PCB data</div>
+      </section>
+
+      <section class="metrics-row" aria-label="Live metrics">
+        <article class="metric-card">
+          <span>⚡ Context Switches</span>
+          <strong id="contextMetric">0</strong>
+        </article>
+        <article class="metric-card">
+          <span>🧵 Threads</span>
+          <strong id="threadMetric">0</strong>
+        </article>
+        <article class="metric-card">
+          <span>📋 Processes</span>
+          <strong id="processMetric">0</strong>
+        </article>
+        <article class="metric-card">
+          <span>🔗 Handles</span>
+          <strong id="handleMetric">0</strong>
+        </article>
+      </section>
+
+      <section class="graphs-row" aria-label="Timeline graphs">
+        <article class="graph-card">
+          <h2>📊 Process Count Timeline</h2>
+          <canvas id="processChart" width="360" height="150"></canvas>
+        </article>
+        <article class="graph-card">
+          <h2>🧵 Thread Count Timeline</h2>
+          <canvas id="threadChart" width="360" height="150"></canvas>
+        </article>
+        <article class="graph-card">
+          <h2>🔗 Handle Count Timeline</h2>
+          <canvas id="handleChart" width="360" height="150"></canvas>
+        </article>
+      </section>
+
+      <section class="scheduler-panel" aria-label="Process creation and scheduler">
+        <h2>⚙️ Process Creation &amp; Scheduler</h2>
+        <form class="process-form" id="processForm">
+          <div class="input-row">
+            <input id="pidInput" type="text" placeholder="PID input" />
+            <input id="priorityInput" type="number" min="1" max="10" placeholder="Priority input" />
+            <input id="burstInput" type="number" min="1" max="30" placeholder="Burst Time input" />
+          </div>
+          <select id="algorithmSelect" aria-label="Select Scheduling Algorithm">
+            <option value="" selected>Select Scheduling Algorithm</option>
+            <option value="FCFS">FCFS</option>
+            <option value="SJF">SJF</option>
+            <option value="Round Robin">Round Robin</option>
+            <option value="Priority Scheduling">Priority Scheduling</option>
+          </select>
+          <div class="button-row">
+            <button type="submit">➕ Create Process</button>
+            <button type="button" id="startScheduler">▶️ Start Scheduler</button>
+          </div>
+        </form>
+        <div class="gantt-timeline" aria-label="CPU scheduling timeline">
+          <div class="gantt-head">
+            <span>CPU Scheduling Timeline</span>
+            <strong id="ganttClock">T+0</strong>
+          </div>
+          <div class="gantt-track" id="ganttTrack"></div>
+        </div>
+      </section>
+
+      <section class="bottom-panels">
+        <article class="queues-panel">
+          <h2>🔁 Ready / Running / Waiting Queues</h2>
+          <div class="queue-section">
+            <h3>🟢 Ready Queue <small>Ready State</small></h3>
+            <div class="queue-list" id="readyQueue"></div>
+          </div>
+          <div class="queue-section">
+            <h3>🔵 Running Queue <small>CPU Dispatch</small></h3>
+            <div class="queue-list" id="runningQueue"></div>
+          </div>
+          <div class="queue-section">
+            <h3>🟡 Waiting Queue <small>I/O Wait</small></h3>
+            <div class="queue-list" id="waitingQueue"></div>
+          </div>
+        </article>
+
+        <article class="events-panel">
+          <h2>⚡ Scheduler Event Stream <small>PCB Save / Load Trace</small></h2>
+          <div class="event-stream" id="eventStream" aria-live="polite"></div>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
